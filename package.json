@@ -14,6 +14,7 @@
   "author": "Snehit Sharma",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^3.1.2"
+    "nodemon": "^3.1.2",
+    "prettier": "^3.3.0"
   }
 }
