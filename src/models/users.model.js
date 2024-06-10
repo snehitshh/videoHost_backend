@@ -52,7 +52,7 @@ userSchema.pre("save",async function(next){   //using pre(middleware) just befor
                                         // we only want to change the password when it is modified or entered for the first time
     return next();                      //if not modified then go to next else change             
    }
-    this.password=bcrypt.hash(this.password,10)  //10 is the number of rounds for hashing
+    this.password=await bcrypt.hash(this.password,10)  //10 is the number of rounds for hashing
    next();
 })
 
