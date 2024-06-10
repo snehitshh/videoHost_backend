@@ -31,13 +31,13 @@ const registerUser=asyncHandler(async (req,res)=>{
     }
 
     if(password.length < 6){
-        throw new ApiError(400, 'Password must be at least 6 characters')
+        throw new apiError(400, 'Password must be at least 6 characters')
       }
       if(username.length < 3){
-        throw new ApiError(400, 'Username must be at least 3 characters')
+        throw new apiError(400, 'Username must be at least 3 characters')
       }
       if(email.includes('@') === false){
-        throw new ApiError(400, 'Email is invalid')
+        throw new apiError(400, 'Email is invalid')
       }
     
 const existingUser=await User.findOne({
