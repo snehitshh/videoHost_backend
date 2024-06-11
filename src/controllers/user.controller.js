@@ -22,7 +22,6 @@ const generateAccessAndRefreshTokens=async(userId)=>{
   }
 }
 
-
 const registerUser=asyncHandler(async (req,res)=>{
         /* return res.status(200).json({
         message:"working"    */  
@@ -149,7 +148,7 @@ const loginUser=asyncHandler(async(req,res)=>{
       )
     )
 
-  })
+})
 
 const logoutUser=asyncHandler(async(req,res)=>{
     User.findByIdAndUpdate(                        
@@ -171,7 +170,7 @@ const logoutUser=asyncHandler(async(req,res)=>{
     .clearCookie("accessToken",options)
     .clearCookie("refreshToken",options)
     .json(new apiResponse (200,{},"User logged out"))
-  })
+})
 
 export {
   registerUser,

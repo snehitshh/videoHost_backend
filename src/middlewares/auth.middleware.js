@@ -1,7 +1,7 @@
-import { apiError } from "../utils/apiErrors";
-import { asyncHandler } from "../utils/asyncHandler";
+import { apiError } from "../utils/apiErrors.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import  jwt  from "jsonwebtoken";
-import {User} from "../models/users.model";
+import {User} from "../models/users.model.js";
 
 //this middleware is to check whether user is logged in or not by generating a token
 export const verifyJWT=asyncHandler(async(req,res,
@@ -28,4 +28,5 @@ export const verifyJWT=asyncHandler(async(req,res,
       } 
 
 })
+
 
