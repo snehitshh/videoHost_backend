@@ -172,8 +172,52 @@ const logoutUser=asyncHandler(async(req,res)=>{
     .json(new apiResponse (200,{},"User logged out"))
 })
 
+const refreshAccessToken=asyncHandler(async(req,res)=>{
+  const incomingRefreshToken=req.cookies.refreshToken || req.body.refreshToken
+
+  if(incomingRefreshToken){
+    throw new apiError(401,"Unauthorized request")
+  }
+
+ try {
+  const decodedToken = jwt.verify(                    //for verification we have to pass a token and a secret token
+     incomingRefreshToken,
+     process.env.REFRESH_TOKEN_SECRET
+   )
+   const user = await User.findById(decodedToken?._id)
+   if(!user){
+     throw new apiError(401,"Invalid refresh token")
+   }
+ 
+   if(incomingRefreshToken!==user?.refreshToken){    //if the incoming refresh token and user refresh token not same then throw error
+     throw new apiError(401,"Refresh token is expired or used")
+   }
+         //if both match then we generate new access and refresh token
+   const options={
+     httpOnly:true,
+     secure:true
+   }
+  const {accessToken,newRefreshToken} = await generateAccessAndRefreshTokens(user._id)
+   return res
+   .status(200)
+   .cookie("accessToken",accessToken,options)
+   .cookie("refreshToken",newRefreshToken,options)
+     .json(
+       new apiResponse(
+         200,
+         {accessToken,newRefreshToken},
+         "Access token refreshed"
+       )
+     )
+ } catch (error) {
+      throw new apiError(401,error?.message || "Invalid refresh token")
+ }
+})
+
+
 export {
   registerUser,
   loginUser,
-  logoutUser
+  logoutUser,
+  refreshAccessToken
 }
